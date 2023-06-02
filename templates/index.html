@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <title>Capacity Management Reporting</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 800px;
+        }
+
+        .banner {
+            background-color: #553a99;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .banner img {
+            height: 40px;
+            margin-left: 1rem;
+        }
+
+        .upload-section {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 5px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        .upload-form {
+            position: relative;
+        }
+
+        .status {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            font-size: 1.25rem;
+            color: green;
+        }
+
+        .file-upload-container {
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .file-upload-input {
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner">
+        <div class="container">
+        </div>
+    </div>
+    <div class="container py-5">
+        <div class="upload-section">
+            {% if success %}
+            <div class="alert alert-success">{{ success }}</div>
+            {% endif %}
+            {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+            <h1 class="mb-4">Capacity Management Reporting</h1>
+            <form method="POST" enctype="multipart/form-data" id="upload-form">
+                {% set file_names = [
+                    "XXXX",
+                    "XXXX",
+                    "XXXX",
+                    "XXXX",
+                    "XXXX",
+                    "XXXX",
+                    "XXXX",
+                    "XXXX",
+                ] %}
+                {% for name in file_names %}
+                <div class="row file-upload-container">
+                    <div class="col-sm-12 col-md-4">
+                        <label for="file{{ loop.index }}" class="file-upload-label">{{ name }}:</label>
+                    </div>
+                    <div class="col-sm-12 col-md-8">
+                        <input type="file" name="file{{ loop.index }}" id="file{{ loop.index }}" data-index="{{ loop.index }}" class="form-control file-upload-input">
+                        <i class="bi bi-check-circle-fill status" id="status{{ loop.index }}" style="display: none;"></i>
+                    </div>
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Upload Files</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#upload-form input[type=file]').on('change', function() {
+                let index = $(this).data('index');
+                let statusElement = $('#status' + index);
+                if (this.files.length > 0) {
+                    statusElement.show();
+                } else {
+                    statusElement.hide();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
